@@ -22,7 +22,7 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, SQLite3Conn, SQLDB, DB, Forms, Controls, Graphics, Dialogs,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   ComCtrls, DBGrids, StdCtrls, DBCtrls, Menus, EditBtn, Spin, ExtCtrls,
   IniFiles, Process, FileUtil, LazFileUtils
 {$IFDEF WINDOWS}
@@ -50,8 +50,8 @@ const
   GW_PROP_PAGE_SETTINGS = 4;
 
   APP_NAME = 'FluxMyFluffyFloppy ';
-  APP_VERSION = 'v5.2.7.1';
-  APP_DATE = '2026-02-15';
+  APP_VERSION = 'v5.2.7.2';
+  APP_DATE = '2026-03-01';
 
   {$IFDEF WINDOWS}
     GW_EXECUTABLE = 'greaseweazle\gw.exe';
@@ -1407,6 +1407,17 @@ begin
   end;
 end;
 
+// btGoClick()
+
+// This procedure does preliminary checks and brings up the GW modal window
+// EdGWCMD.Lines.Text already contains the constructed command line
+// Some parts of this sneakily add other parameters such as logging parameters
+// which are not displayed on the command line
+
+// In: EdGWCMD.Lines - Displayed GW command line
+// Out: aLine - Final GW command line
+// Out: Caption - GW Modal window title bar
+
 procedure TForm1.btGoClick(Sender: TObject);
 var
     LogDir, LogFilename : String;
@@ -1423,6 +1434,7 @@ begin
         exit;
        end;
     end;
+
    if Fileexists(edGWFile.Text) = false then
     begin
      answer := MessageDlg(GW_APP_NAME + ' (' + GW_APP + ') not found!',mtWarning, [mbCancel], 0);
@@ -1704,7 +1716,11 @@ begin
 
     // Set working directory for future process runs
     SetCurrentDir(Dir);
-
+{$IFDEF WINDOWS}
+    CmdDir('/k "', 'cd ' + DirCheck(Dir) + '"');
+{$ELSE}
+    CmdDir('-c "', 'cd "' + DirCheck(ExtractFileDir(edGWFile.Text)) + '" ; exec bash"');
+{$ENDIF}
     MessageDlg('Working directory set to:' + LineEnding + Dir,
       mtInformation, [mbOK], 0);
   end
@@ -1900,10 +1916,7 @@ var
 begin
   if fileexists(edGWFile.Text) = true then
   begin
-   aLine := '"' + Form1.EdGWFile.Text + '" delays';
-   if cbGWDevCOM.Text <> '' then aLine := aLine + ' ` ' + cbGWDevCOM.Text + '"';
-   frmGW.Caption:= GW_APP_NAME + ' - Info Delays';
-   frmGW.showmodal;
+   performModalCmdAction('delays');
   end
   else
   begin
