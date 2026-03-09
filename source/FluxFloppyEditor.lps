@@ -6,10 +6,10 @@
     <BuildModes Active="Default"/>
     <Units>
       <Unit>
-        <Filename Value="FluxMyFluffyFloppy.lpr"/>
+        <Filename Value="FluxFloppyEditor.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos Y="26"/>
+        <CursorPos Y="27"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit>
@@ -21,7 +21,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="4717"/>
+        <TopLine Value="4716"/>
         <CursorPos Y="4762"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
