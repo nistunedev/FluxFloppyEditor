@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 960
   Top = 81
   Width = 925
-  Caption = 'Flux Floppy Editor'
+  Caption = 'Flux Floppy Manager'
   ClientHeight = 960
   ClientWidth = 925
   Font.Height = -13

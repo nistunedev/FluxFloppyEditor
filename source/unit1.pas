@@ -1,6 +1,6 @@
 {
 -------------------------------------------------------------------
-Flux Floppy Editor
+Flux Floppy Manager
 v5.xx
 -------------------------------------------------------------------
 A Microsoft(r) Windows(r) and Linux GUI for Greseaweazle Host Tools
@@ -8,7 +8,7 @@ FREEWARE / OpenSource
 License: GNU General Public License v2.0
 
 (c) 2026 NistuneDev
-Web: https://github.com/nistunedev/FluxFloppyEditor
+Web: https://github.com/nistunedev/FluxFloppyManager
 This is a fork based on "FluxMyFluffyFloppy"
 
 (c) 2021-2026 FrankieTheFluff
@@ -723,9 +723,9 @@ begin
     try
      INI := TINIFile.Create(sAppPath + GW_INI_FILE);
      INI.WriteString(FLUX_INI_NAME, INI_VERSION, sAppVersion);
-     INI.WriteInteger(FLUX_INI_NAME, INI_VERSION_INI, 10);
-     INI.WriteInteger(FLUX_INI_NAME, INI_HEIGHT, 1135);
-     INI.WriteInteger(FLUX_INI_NAME, INI_WIDTH, 1580);
+     INI.WriteInteger(FLUX_INI_NAME, INI_VERSION_INI, INI_VERSION_DEFAULT);
+     INI.WriteInteger(FLUX_INI_NAME, INI_HEIGHT, INITIAL_HEIGHT);
+     INI.WriteInteger(FLUX_INI_NAME, INI_WIDTH, INITIAL_WIDTH);
      INI.WriteBool(FLUX_INI_NAME, INI_SHOWARG, true);
      INI.WriteString(FLUX_INI_NAME, INI_GW, '');
      INI.WriteBool(FLUX_INI_NAME, INI_SAVE_DEVICE_FLAG, true);
@@ -747,9 +747,9 @@ begin
 
 
   INI := TINIFile.Create(sAppPath + GW_INI_FILE);
-  If INI.ReadInteger(FLUX_INI_NAME, INI_VERSION_INI, 00) < 10 then
+  If INI.ReadInteger(FLUX_INI_NAME, INI_VERSION_INI, 00) < INI_VERSION_DEFAULT then
    begin
-    INI.WriteInteger(FLUX_INI_NAME, INI_VERSION_INI, 10);
+    INI.WriteInteger(FLUX_INI_NAME, INI_VERSION_INI, INI_VERSION_DEFAULT);
     INI.WriteBool(FLUX_INI_NAME, INI_CODE_PAGE_CMD, true);
    end;
   If INI.ReadString(FLUX_INI_NAME, INI_FOLDER_DISKDEFS,'') = '' then
@@ -764,8 +764,8 @@ begin
   edConvDirDest.Directory := INI.ReadString(FLUX_INI_NAME, INI_FOLDER_CONVERT_DEST,'');
 
   // Form size height/width
-  Form1.Height := INI.ReadInteger(FLUX_INI_NAME, INI_HEIGHT, 770);
-  Form1.Width := INI.ReadInteger(FLUX_INI_NAME, INI_WIDTH, 935);
+  Form1.Height := INI.ReadInteger(FLUX_INI_NAME, INI_HEIGHT, INITIAL_HEIGHT);
+  Form1.Width := INI.ReadInteger(FLUX_INI_NAME, INI_WIDTH, INITIAL_WIDTH);
   Set_View;
   // Center
   Form1.Top:=(( Screen.Height-Height)div 2);
@@ -2973,7 +2973,7 @@ end;
 
 procedure TForm1.mnuFMFFClick(Sender: TObject);
 begin
-  LaunchURL('https://github.com/nistunedev/FluxFloppyEditor');
+  LaunchURL('https://github.com/nistunedev/FluxFloppyManager');
 end;
 
 procedure TForm1.mnuGWDownloadClick(Sender: TObject);
@@ -3871,8 +3871,8 @@ end;
 
 procedure TForm1.FormResize(Sender: TObject);
 const
-  MinWidth = 950;
-  MinHeight = 500;
+  MinWidth = MIN_WIDTH;
+  MinHeight = MIN_HEIGHT;
 begin
    if Width < MinWidth then Width := MinWidth;
    if Height < MinHeight then Height := MinHeight;
