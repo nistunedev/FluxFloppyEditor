@@ -49,7 +49,6 @@
       <Unit>
         <Filename Value="FluxFloppyManager.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="FluxFloppyManager"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.pas"/>
