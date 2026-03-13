@@ -7,3 +7,4 @@
 /source/lib/aarch64-linux
 source/FluxFloppyManager.x86_64-linux-gnu
 source/FluxFloppyManager
+source/FluxFloppyManager.ini
