@@ -167,7 +167,58 @@
         <format ext="FD" desc="FD" save="true" convert="true"/>
         <format ext="FDI" desc="FDI" save="true" convert="true"/>
         <format ext="HDM" desc="HDM" save="true" convert="true"/>
-        <format ext="HFE" desc="HxC Floppy Emulator" save="true" convert="true"/>
+        <format ext="HFE" desc="HxC Floppy Emulator" save="true" convert="true">
+          <option name="Bitrate">
+            <value>125</value>
+            <value>250</value>
+            <value>300</value>
+            <value>500</value>
+          </option>
+          <option name="Interface">
+            <value>IBMPC_DD</value>
+            <value>IBMPC_HD</value>
+            <value>ATARIST_DD</value>
+            <value>ATARIST_HD</value>
+            <value>AMIGA_DD</value>
+            <value>AMIGA_HD</value>
+            <value>CPC_DD</value>
+            <value>GENERIC_SHUGART_DD</value>
+            <value>IBMPC_ED</value>
+            <value>MSX2_DD</value>
+            <value>C64_DD</value>
+            <value>EMU_SHUGART</value>
+            <value>S950_DD</value>
+            <value>S950_HD</value>
+            <value>S950_DD_HD</value>
+            <value>IBMPC_DD_HD</value>
+            <value>QUICKDISK</value>
+            <value>UNKNOWN</value>
+          </option>
+          <option name="Encoding">
+            <value>ISOIBM_MFM</value>
+            <value>AMIGA_MFM</value>
+            <value>ISOIBM_FM</value>
+            <value>EMU_FM</value>
+            <value>TYCOM_FM</value>
+            <value>MEMBRAIN_MFM</value>
+            <value>APPLEII_GCR1</value>
+            <value>APPLEII_GCR2</value>
+            <value>APPLEII_HDDD_A2_GCR1</value>
+            <value>APPLEII_HDDD_A2_GCR2</value>
+            <value>ARBURGDAT</value>
+            <value>ARBURGSYS</value>
+            <value>AED6200P_MFM</value>
+            <value>NORTHSTAR_HS_MFM</value>
+            <value>HEATHKIT_HS_FM</value>
+            <value>DEC_RX02_M2FM</value>
+            <value>APPLEMAC_GCR</value>
+            <value>QD_MO5</value>
+            <value>C64_GCR</value>
+            <value>VICTOR9K_GCR</value>
+            <value>MICRALN_HS_FM</value>
+            <value>UNKNOWN</value>
+          </option>
+        </format>
         <format ext="IMA" desc="Disk Image" save="true" convert="true"/>
         <format ext="IMG" desc="Disk Image" save="true" convert="true"/>
         <format ext="IMD" desc="ImageDisk" save="true" convert="true"/>
@@ -179,7 +230,44 @@
         <format ext="PO" desc="Apple II" save="true" convert="true"/>
         <format ext="RAW" desc="KryoFlux" save="true" convert="true"/>
         <format ext="SF7" desc="SEGA" save="true" convert="true"/>
-        <format ext="SCP" desc="SuperCardPro" save="true" convert="true"/>
+        <format ext="SCP" desc="SuperCardPro" save="true" convert="true">
+          <option name="DiskType">
+            <value>amiga</value>
+            <value>amigahd</value>
+            <value>c64</value>
+            <value>amstrad-cpc</value>
+            <value>apple-1m44</value>
+            <value>apple-400k</value>
+            <value>apple-800k</value>
+            <value>appleii</value>
+            <value>appleiipro</value>
+            <value>atari800-dd</value>
+            <value>atari800-ed</value>
+            <value>atari800-sd</value>
+            <value>atarist-ds</value>
+            <value>atarist-ss</value>
+            <value>hdd-mfm</value>
+            <value>hdd-rll</value>
+            <value>ibmpc-1m2</value>
+            <value>ibmpc-1m44</value>
+            <value>ibmpc-360k</value>
+            <value>ibmpc-720k</value>
+            <value>other-1m2</value>
+            <value>other-1m44</value>
+            <value>other-320k</value>
+            <value>other-720k</value>
+            <value>roland-d20</value>
+            <value>tape-gcr1</value>
+            <value>tape-gcr2</value>
+            <value>tape-mfm</value>
+            <value>ti-99/4a</value>
+            <value>trs80_dsdd</value>
+            <value>trs80_dssd</value>
+            <value>trs80_ssdd</value>
+            <value>trs80_sssd</value>
+          </option>
+        </format>        
+        
         <format ext="SSD" desc="Acorn" save="true" convert="true"/>
         <format ext="ST" desc="Atari ST" save="true" convert="true"/>
         <format ext="TD0" desc="Teledisk" save="true" convert="true"/>
