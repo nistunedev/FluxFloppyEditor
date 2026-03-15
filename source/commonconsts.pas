@@ -114,8 +114,14 @@ const
   INI_TEMPLATE_PRE_COMP = 'Precomp';
   INI_TEMPLATE_PRE_ERASE = 'Pre-Erase';
   INI_TEMPLATE_TP43_PIN2 = 'TP43Pin2';
-  
-  
+
+  // Additions V3.0
+  INI_TEMPLATE_FORMAT = 'Format';
+  INI_TEMPLATE_FORMAT_OPTION = 'FormatOption';
+  INI_TEMPLATE_FORMAT_OPTION_HFE_VER = 'FormatOptionHFEVer';
+  INI_TEMPLATE_FORMAT_OPTION_HFE_INT = 'FormatOptionHFEInt';
+  INI_TEMPLATE_FORMAT_OPTION_HFE_ENC = 'FormatOptionHFEEnc';
+
   PATH_TEMPLATES = 'Templates';
 
   GW_INI_WRITE_EXT = '.iniw';

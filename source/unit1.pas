@@ -541,6 +541,7 @@ type
     procedure performModalCmdAction(const command: string);
     function GetReadFormatSelection : String;
     function GetConvFormatSelection : String;
+    procedure UpdateReadFormatSelection;
 
     procedure performCmdAction(const cmd: string;
                                const param: string;
@@ -1375,10 +1376,6 @@ begin
    if answer = mrOk then exit;
  end;
 
-
-
-
-
  tmp := INI.ReadString(FLUX_INI_NAME, INI_FOLDER_TEMPLATES, '');
  if tmp = '' then CreateDir(sAppPath + PATH_TEMPLATES + PATH_SPECIFIER);
  if DirectoryExists(tmp) = false then
@@ -1418,6 +1415,12 @@ begin
       INIRead.WriteBool(INI_SETTINGS, INI_TEMPLATE_LOG_PARAM, cbReadTplLogParam.Checked);
       INIRead.WriteBool(INI_SETTINGS, INI_TEMPLATE_LOG_OUTPUT, cbReadTplLogOutput.Checked);
       INIRead.WriteBool(INI_SETTINGS, INI_TEMPLATE_LOG_ONEFILE, cbReadTplLogBoth.Checked);
+
+      INIRead.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT, cbReadFormat.Text);
+      INIRead.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION, cbReadFormatOption.Text);
+      INIRead.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_VER, cbReadFormatOptionHFEVer.Text);
+      INIRead.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_INT, cbReadFormatOptionHFEInt.Text);
+      INIRead.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_ENC, cbReadFormatOptionHFEEnc.Text);
 
       INIRead.Free;
 
@@ -1558,6 +1561,13 @@ begin
     IniWrite.WriteBool(INI_SETTINGS, INI_TEMPLATE_HSWAP, cbWriteTplHSwap.Checked);
     IniWrite.WriteString(INI_SETTINGS, INI_TEMPLATE_FLIPPY, cbWriteTplFlippy.Text);
     IniWrite.WriteBool(INI_SETTINGS, INI_TEMPLATE_FLIPPY_REV, cbWriteTplFlippyReverse.Checked);
+//    IniWrite.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT, cbWriteTplFormat.Text);
+//    IniWrite.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION, cbWriteTplFormatOption.Text);
+//    IniWrite.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_VER, cbWriteTplFormatOptionHFEVer.Text);
+//    IniWrite.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_INT, cbWriteTplFormatOptionHFEInt.Text);
+//    IniWrite.WriteString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_ENC, cbWriteTplFormatOptionHFEEnc.Text);
+
+
 
     IniWrite.Free;
 
@@ -1632,7 +1642,11 @@ begin
   TmplFolder := INITmplFolder.ReadString(FLUX_INI_NAME, INI_FOLDER_TEMPLATES, '');
   If TmplFolder = '' then exit;
   INITmplFolder.Free;
-
+//    cbWriteTplFormat.Text              := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT, false);
+//    cbWriteTplFormatOption.Text        := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION, false);
+//    cbWriteTplFormatOptionHFEVer.Text  := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_VER, false);
+//    cbWriteTplFormatOptionHFEInt.Text  := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_INT, false);
+//    cbWriteTplFormatOptionHFEEnc.Text  := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_INC, false);
   iniRefreshWrite := TINIFile.Create(DirCheck(TmplFolder) + cbWriteTplName.Text + GW_INI_WRITE_EXT);
   try
     //ver := iniRefreshRead.ReadString(WRITE_TEMPLATE,INI_VERSION,'');
@@ -1658,6 +1672,12 @@ begin
     cbWriteTplHSwap.Checked:= iniRefreshWrite.ReadBool(INI_SETTINGS, INI_TEMPLATE_HSWAP, false);
     cbWriteTplFlippy.Text:= iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FLIPPY, '');
     cbWriteTplFlippyReverse.checked := iniRefreshWrite.ReadBool(INI_SETTINGS, INI_TEMPLATE_FLIPPY_REV, false);
+
+//    cbWriteTplFormat.Text              := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT, false);
+//    cbWriteTplFormatOption.Text        := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION, false);
+//    cbWriteTplFormatOptionHFEVer.Text  := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_VER, false);
+//    cbWriteTplFormatOptionHFEInt.Text  := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_INT, false);
+//    cbWriteTplFormatOptionHFEEnc.Text  := iniRefreshWrite.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_INC, false);
 
     iniRefreshWrite.Free;
   finally
@@ -1741,6 +1761,15 @@ begin
     cbReadTplLogParam.Checked      := iniRefreshRead.ReadBool(INI_SETTINGS, INI_TEMPLATE_LOG_PARAM, false);
     cbReadTplLogOutput.Checked     := iniRefreshRead.ReadBool(INI_SETTINGS, INI_TEMPLATE_LOG_OUTPUT, false);
     cbReadTplLogBoth.Checked       := iniRefreshRead.ReadBool(INI_SETTINGS, INI_TEMPLATE_LOG_ONEFILE, false);
+
+    cbReadFormat.Text              := iniRefreshRead.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT, '');
+
+    // Update the combo boxes after format is determined
+    UpdateReadFormatSelection;
+    cbReadFormatOption.Text        := iniRefreshRead.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION, '');
+    cbReadFormatOptionHFEVer.Text  := iniRefreshRead.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_VER, '');
+    cbReadFormatOptionHFEInt.Text  := iniRefreshRead.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_INT, '');
+    cbReadFormatOptionHFEEnc.Text  := iniRefreshRead.ReadString(INI_SETTINGS, INI_TEMPLATE_FORMAT_OPTION_HFE_ENC, '');
 
     iniRefreshRead.Free;
   finally
@@ -3194,7 +3223,8 @@ begin
   Create_Filename;
 end;
 
-procedure TForm1.cbReadFormatChange(Sender: TObject);
+// This need to be called when template selected or initial update
+procedure TForm1.UpdateReadFormatSelection;
 var
   entryLine : string;
   index: Integer;
@@ -3202,6 +3232,12 @@ begin
   cbReadFormatOption.Items.Clear;
   cbReadFormatOption.ItemIndex := -1;
   cbReadFormatOption.Enabled:= false;
+
+  // Disable all options by default
+  cbReadFormatOption.Enabled := false;
+  cbReadFormatOptionHFEInt.Enabled := false;
+  cbReadFormatOptionHFEVer.Enabled := false;
+  cbReadFormatOptionHFEEnc.Enabled := false;
 
   // SCP Options
   if GetReadFormatSelection = COMBO_SELECTION_SCP then
@@ -3244,21 +3280,10 @@ begin
    cbReadFormatOptionHFEInt.ItemIndex := -1;
    cbReadFormatOptionHFEInt.Enabled:= true;
    cbReadFormatOptionHFEInt.Items.Add('');
-   begin
-     entryLine := '::' + HFEFormatOptions.DiskInterface.Name + '=' + HFEFormatOptions.DiskInterface.Value[index];
-     cbReadFormatOptionHFEInt.Items.Add(entryLine);
-   end;
-   cbReadFormatOptionHFEInt.ItemIndex := 0;
-
-   //HLE EncodingType
-   cbReadFormatOptionHFEEnc.Items.Clear;
-   cbReadFormatOptionHFEEnc.ItemIndex := -1;
-   cbReadFormatOptionHFEEnc.Enabled:= true;
-   cbReadFormatOptionHFEEnc.Items.Add('');
    for index := 0 to High(HFEFormatOptions.DiskInterface.Value) do
    begin
      entryLine := '::' + HFEFormatOptions.DiskInterface.Name + '=' + HFEFormatOptions.DiskInterface.Value[index];
-     cbReadFormatOptionHFEEnc.Items.Add(entryLine);
+     cbReadFormatOptionHFEInt.Items.Add(entryLine);
    end;
    cbReadFormatOptionHFEInt.ItemIndex := 0;
 
@@ -3274,6 +3299,11 @@ begin
    end;
    cbReadFormatOptionHFEEnc.ItemIndex := 0;
   end;
+end;
+
+procedure TForm1.cbReadFormatChange(Sender: TObject);
+begin
+  UpdateReadFormatSelection;
 
   Create_Filename;
 end;
@@ -3350,7 +3380,7 @@ end;
 
 function TForm1.GetConvFormatSelection(): String;
 begin
-  Result := trim(leftStr(cbConvFormat.Text,3));
+  Result := trim(leftStr(cbConvFileFormat.Text,3));
 end;
 
 procedure TForm1.Create_Filename;
@@ -3418,6 +3448,7 @@ begin
       end;
     COMBO_SELECTION_HFE:
       begin
+       cbReadFormatOption.Enabled := true;
        cbReadFormatOptionHFEVer.Enabled :=true;
        cbReadFormatOptionHFEInt.Enabled :=true;
        cbReadFormatOptionHFEEnc.Enabled :=true;
@@ -3425,8 +3456,9 @@ begin
       end;
     COMBO_SELECTION_SCP:
       begin
-       cbReadPreview.Text := filenameRead + '.' + lowercase(GetReadFormatSelection) + cbReadFormatoption.Text;
-       cbReadPreview.Text := filenameRead + '00.0.' + lowercase(GetReadFormatSelection);
+        cbReadFormatOption.Enabled := true;
+        cbReadPreview.Text := filenameRead + '.' + lowercase(GetReadFormatSelection) + cbReadFormatoption.Text;
+        cbReadPreview.Text := filenameRead + '00.0.' + lowercase(GetReadFormatSelection);
       end
     else
      if cbReadFormat.Text <> '' then cbReadPreview.Text := filenameRead + '.' + lowercase(trim(leftStr(cbReadFormat.Text,3)));
@@ -3479,6 +3511,7 @@ begin
         filenameConvert := filenameConvert + lblOf + Format('%.*d', [digits, disc2]);
 
     // conv file extension - FMFF 4.0
+    cbConvFormatOption.Enabled := false;
     cbConvFormatOptionHFEVer.Enabled :=false;
     cbConvFormatOptionHFEInt.Enabled :=false;
     cbConvFormatOptionHFEEnc.Enabled :=false;
@@ -3490,6 +3523,7 @@ begin
        end;
      COMBO_SELECTION_HFE:
        begin
+        cbConvFormatOption.Enabled := true;
         cbConvFormatOptionHFEVer.Enabled :=true;
         cbConvFormatOptionHFEInt.Enabled :=true;
         cbConvFormatOptionHFEEnc.Enabled :=true;
@@ -3497,6 +3531,7 @@ begin
        end;
      COMBO_SELECTION_SCP:
        begin
+        cbConvFormatOption.Enabled := true;
         edConvFilenamePreview.Text := FilenameConvert + '.' + Lowercase(GetConvFormatSelection) + cbConvFormatOption.Text;
        end;
      COMBO_SELECTION_RAW:
